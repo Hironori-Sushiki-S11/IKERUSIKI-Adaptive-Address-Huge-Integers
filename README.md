@@ -1,162 +1,161 @@
-# IKERUSIKI Adaptive Address — 超巨大数の有限識別実験
+# IKERUSIKI Adaptive Address — Finite Identification of Huge Integers
 
-実施日：2026-09-09。既存成果の公開・外部検証フェーズからの新たな適用実験。
-本リポジトリでは、超巨大数の有限識別実験のコード・実行結果・検証記録・再現手順を公開しています。
-コードと実験結果は公開済みです。次の段階は、スマホ・他環境での再現と、第三者による外部検証の記録です。。
+English | [日本語](README.ja.md)
 
-## 今回の結果
+Experiment date: 2026-09-09. This is a new application extending the existing work in its publication and external validation phase.
+This repository publishes the code, execution results, validation records, and reproduction instructions for finite identification of huge integers.
 
-巨大整数本体を展開せず、既知メルセンヌ素数52個を基数 **467 → 11** で完全識別。
-衝突ペアは **1326 → 4 → 0**。候補範囲2〜512から選択され、EXPANDは不要でした。
+## Results
 
-さらに `p = 10**100 + i (i=0..51)` で定義した52個の `2**p-1` も基数 **53** で完全識別。
-この集合の各整数は正確に `p` ビットであり、最大値は `10**100+51` ビットです。
-指数は明示的に選んだ連続整数で、乱択標本ではありません。素数性は主張しません。
-同じ生成式の中では指数自体も識別子です。今回はその値をラベルとして直接比較するだけでなく、
-整数本体の剰余を正確に観測してAdaptive Addressを形成できることを検証しました。
+The experiment completely distinguished **52 known Mersenne primes** using axes **467 → 11**, without expanding the integer bodies.
+Collision pairs decreased **1326 → 4 → 0**. The axes were selected from candidates 2–512; EXPAND was not needed.
 
-既知52個のAddressを維持して両集合104個へ拡張すると、残る衝突は2ペア。
-基数 **5** を追加し、**[467,11,5]** で完全識別しました。
-同じ52個の再評価では衝突0のため追加軸はありません。
+It also completely distinguished 52 integers `2**p-1`, defined by `p = 10**100 + i (i=0..51)`, using axis **53**.
+Each integer has exactly `p` bits, with a maximum bit length of `10**100+51`.
+These exponents are explicitly chosen consecutive integers, not a random sample. No primality claim is made for this set.
+Within this generating formula, the exponent itself is also an identifier. This experiment verifies that Adaptive Addresses can be formed by observing exact residues of the represented integers, rather than merely comparing exponent labels.
 
-| 実験 | 個数 | 最終基数 | 開始時からの衝突ペア | 5回の中央値（秒） |
+Extending to the combined set of 104 integers while retaining the two axes from the known-prime set left two collision pairs.
+Adding axis **5** completely distinguished the combined set with **[467,11,5]**.
+Re-evaluating the same 52 known primes with their existing Address left zero collisions and required no additional axis.
+
+| Experiment | Count | Final axes | Collision pairs from the starting state | Median of 5 runs (seconds) |
 |---|---:|---|---|---:|
-| 既知メルセンヌ素数 | 52 | [467, 11] | 1326 → 4 → 0 | 0.029489 |
-| 10^100級の指数 | 52 | [53] | 1326 → 0 | 0.176675 |
-| 既存Address保持 | 52 | [467, 11] | 0 | 0.000074 |
-| 保持したAddressで104個へ拡張 | 104 | [467, 11, 5] | 2 → 0 | 0.026203 |
-| 候補不足の対照実験 | 2 | [47] | 1 → 0 | 0.000228 |
+| Known Mersenne primes | 52 | [467, 11] | 1326 → 4 → 0 | 0.029489 |
+| Exponents at the 10^100 scale | 52 | [53] | 1326 → 0 | 0.176675 |
+| Retain the existing Address | 52 | [467, 11] | 0 | 0.000074 |
+| Extend to 104 while retaining the Address | 104 | [467, 11, 5] | 2 → 0 | 0.026203 |
+| Insufficient-candidate control | 2 | [47] | 1 → 0 | 0.000228 |
 
-104個の行は、既存2軸を適用した後の衝突数から示しています。
-全てこの実行環境での観測値であり、任意集合の深さやスマホでの速度の保証ではありません。
+The 104-integer row starts after applying the two existing axes.
+These are observations in the recorded execution environment, not guarantees of depth for arbitrary sets or of runtime on a smartphone.
 
-## 一次資料・既存コードとの整合
+## Primary source and compatibility with the existing code
 
-- 指数一覧：[GIMPS公式一覧](https://www.mersenne.org/primes/)、2026-09-09確認。
-  52個。最大指数136,279,841、最大の数は41,024,320桁。指数全件はスクリプトに固定。
-  52番目という順位はGIMPSでは暫定表記です。
-- 既存成果：[RSA-2048-Collapse-S11](https://github.com/Hironori-Sushiki-S11/RSA-2048-Collapse-S11)
-- 既存成果DOI（利用者の引き継ぎ情報）：https://doi.org/10.5281/zenodo.22378466
-- 参照コード：`ADAPTIVE_ADDRESS_SCALING_REPRODUCER.py`
-- 取得したGit blob SHA：`f00a6160787750aae76e18791f8f31600ff32834`
-- ファイルの最終変更コミット：`13b77310a1d0a8747bf5a60d75317a036ad03e2d`
-- `upstream_reproducer.py` に取得した原本を同梱。blob SHAをローカルで照合済み。
+- Exponents: [GIMPS official list](https://www.mersenne.org/primes/), checked 2026-09-09.
+  The list contains 52 known Mersenne primes, with maximum exponent 136,279,841 and maximum decimal length 41,024,320 digits. All exponents are fixed in the script.
+  GIMPS marks the 52nd position as a provisional ranking.
+- Existing work: [RSA-2048-Collapse-S11](https://github.com/Hironori-Sushiki-S11/RSA-2048-Collapse-S11).
+- DOI for the existing work, supplied in the author's project handoff: [10.5281/zenodo.22378466](https://doi.org/10.5281/zenodo.22378466).
+- Reference code: `ADAPTIVE_ADDRESS_SCALING_REPRODUCER.py`.
+- Retrieved Git blob SHA: `f00a6160787750aae76e18791f8f31600ff32834`.
+- Latest change commit for that reference file: `13b77310a1d0a8747bf5a60d75317a036ad03e2d`.
+- The retrieved original is included as `upstream_reproducer.py`; its blob SHA was checked locally.
 
-選択スコアは原本と同じ `(before-after, entropy, -b)`。
-エントロピーは原本と同じ順序の浮動小数点加算です。数学的に同値なエントロピーでも
-別実装・別順序の丸めにより極近接の同点判定が変わる可能性があるため、コードと環境を保存します。
-本実験のコーパス順序は指数の記載順で固定しています。
+The selection score is the same as in the original: `(before-after, entropy, -b)`.
+Entropy uses floating-point addition in the same order as the original. Rounding differences between implementations or accumulation orders can change very close tie decisions, even when entropies are mathematically equal. The code and environment are therefore recorded.
+The corpus order in this experiment is fixed by the order of the listed exponents.
 
-原本はLCM状態Lに対し `q=b/gcd(L,b)` を評価し、
-各衝突群の参照値refからの `(n-ref)//L mod q` により分割します。
-本実装では `n = 2**p-1` を展開せず、次の完全に同値な式を使います。
+For LCM state L, the original evaluates `q=b/gcd(L,b)` and partitions each collision group by `(n-ref)//L mod q`, relative to a reference value ref in that group.
+This implementation uses the following exactly equivalent expression without expanding `n = 2**p-1`:
 
 ```text
 R_i = (pow(2, p_i, L*q) - 1) % (L*q)
 relative_class = ((R_i - R_ref) % (L*q)) // L
 ```
 
-同じ現在群では `L | (n-ref)` なので、分子はLの倍数です。
-`((n-ref) mod (L*q))/L = ((n-ref)/L) mod q` が成り立ちます。
-同じqの評価は深さごとに再利用し、区別済みの単独行は分割評価から除外します。
-最終的なAddressは独立に計算した `[(pow(2,p,b)-1)%b for b in selected_axes]`。
-この生の `n mod b` と、IKERUSIKIの折り返し距離を混同していません。
-`(n-1) mod b` と生の `n mod b` は座標の値が異なりますが、等値衝突の分割は一致します。
+Within a current collision group, `L | (n-ref)`, so the numerator is a multiple of L.
+The identity `((n-ref) mod (L*q))/L = ((n-ref)/L) mod q` holds.
+Evaluations with the same q are reused within each depth, and already distinguished singleton rows are excluded from partition evaluation.
+Final Addresses are independently calculated as `[(pow(2,p,b)-1)%b for b in selected_axes]`.
+These raw `n mod b` coordinates are distinct from IKERUSIKI's folded boundary distances.
+The shifted coordinate `(n-1) mod b` and the raw coordinate `n mod b` have different values but induce identical equality partitions.
 
-原本は無進展時に停止します。本実装は今回の展開として、無進展時のみ候補上限を倍増する
-EXPANDを追加しました。既定の上限8192に達しても未解消なら未解消として報告します。
-有効な区別を追加しない軸を、適応選択のAddressに追加することはありません。
-対照実験はp=1000とp=1000+lcm(1,...,16)。候補上限16→32→64の拡張を経て47を選択しました。
-この初期候補でのBlind Spotは、対象数が同じであることを意味しません。
+The original stops when no progress is made. As part of this extension, EXPAND doubles the candidate upper bound only when no progress is possible with the current candidates.
+If collisions remain at the default cap of 8192, they are reported as unresolved.
+An axis that adds no distinction is not appended to the adaptively selected Address.
+The control uses p=1000 and p=1000+lcm(1,...,16). It expands the candidate upper bound 16→32→64, then selects 47.
+This Blind Spot in the initial candidate range does not mean that the two represented integers are equal.
 
-## 効果を二つに分ける
+## Separating two effects
 
-### 1. 生成式と剰余累乗による省資源化
+### 1. Resource savings from the generating formula and modular exponentiation
 
-巨大な `2**p-1` の代わりに指数pを保持します。計算は小さい法を使う剰余累乗です。
-`p` 自体の保存・計算は必要ですが、整数本体のpビット展開は不要です。
-これは剰余累乗の性質であり、Adaptive Address固有の高速化として計上しません。
+The exponent p is stored instead of the huge integer `2**p-1`. Residues are calculated through modular exponentiation with small moduli.
+The exponent still requires storage and computation, but expansion of the p-bit integer body is unnecessary.
+This is a property of modular exponentiation and is not counted as a speedup unique to Adaptive Address.
 
-別枠の有界比較だけ、最大1,048,576ビットまで整数を展開しました。
-各サイズで同じ511基数を計算し、全剰余の一致を確認しています。
-時間は5回の中央値。展開側には整数生成時間も含みます。
+Only a separate, bounded comparison explicitly expanded integers, up to 1,048,576 bits.
+It calculated residues for the same 511 bases at each size and verified that every residue matched.
+Times are medians of five runs. The expanded-integer method includes integer construction time.
 
-| p（ビット数） | 剰余累乗（秒） | 展開＋剰余（秒） | 展開整数オブジェクト（bytes） |
+| p (bit length) | Modular exponentiation (seconds) | Expansion + residues (seconds) | Expanded integer object (bytes) |
 |---:|---:|---:|---:|
 | 32,768 | 0.000128 | 0.002352 | 4,396 |
 | 131,072 | 0.000146 | 0.009442 | 17,504 |
 | 1,048,576 | 0.000179 | 0.075535 | 139,836 |
 
-オブジェクトサイズはPythonのsys.getsizeofによる値で、プロセス全体のピークメモリではありません。
-超巨大数本体を展開した場合の時間・ピークメモリは測定していません。
+Object sizes are measured with Python's sys.getsizeof, not as whole-process peak memory.
+Runtime and peak memory for explicitly expanding the huge-integer corpus were not measured.
 
-### 2. Adaptive Addressによる選択と短いAddress
+### 2. Adaptive selection and short Addresses
 
-同じコーパス・剰余観測・LCM分割を使い、基数を2から順に適用する比較方法を実行しました。
-昇順法は区別を増やさない基数もAddressに保持する単純な基準です。
-最良の既存アルゴリズムとの比較や新規性の評価ではありません。
+A comparison applied bases in ascending order from 2, using the same corpus, residue observations, and LCM partitioning.
+This simple ascending baseline retains even bases that add no distinction to its Address.
+It is not a comparison against the best existing algorithms or an assessment of novelty.
 
-| コーパス・方法 | 保存軸数 | 選択中のpow回数 | 選択時間中央値（秒） | 選択済み全Address再計算（秒） |
+| Corpus and method | Stored axes | pow calls during selection | Median selection time (seconds) | Recompute all Addresses with selected axes (seconds) |
 |---|---:|---:|---:|---:|
-| 既知52・適応選択 | 2 | 30,652 | 0.029489 | 0.000045 |
-| 既知52・昇順 | 28 | 600 | 0.000985 | 0.000422 |
-| 超巨大52・適応選択 | 1 | 26,572 | 0.176675 | 0.000285 |
-| 超巨大52・昇順 | 10 | 416 | 0.002565 | 0.002118 |
+| Known 52 — adaptive selection | 2 | 30,652 | 0.029489 | 0.000045 |
+| Known 52 — ascending | 28 | 600 | 0.000985 | 0.000422 |
+| Huge 52 — adaptive selection | 1 | 26,572 | 0.176675 | 0.000285 |
+| Huge 52 — ascending | 10 | 416 | 0.002565 | 0.002118 |
 
-**今回、適応選択は短いAddressを得ましたが、選択自体は昇順法より遅い結果でした。**
-候補探索・評価の費用を、最終的な2軸や1軸だけの費用に置き換えていません。
-選択済み軸の再計算は、軸選択費用を除いた独立の測定です。
-選択時間は初期Address適用・候補評価・群分割を含み、最終独立検算とJSON出力を除きます。
-全候補評価には小さい法とはいえpowが数万回あり、探索費用は無視できません。
-単独行を省略した選択中のpow回数と、全行のAddressを再構築するpow回数は異なります。
+**In this experiment, adaptive selection produced shorter Addresses, but selection itself was slower than the ascending baseline.**
+Candidate search and evaluation costs are not replaced by the cost of applying only the final two axes or single axis.
+Recomputation with already selected axes is measured separately and excludes axis selection costs.
+Selection time includes initial Address application, candidate evaluation, and partition refinement; it excludes the final independent verification and JSON output.
+Evaluating the candidates requires tens of thousands of pow calls, even with small moduli; that search cost must be accounted for.
+Selection skips singleton rows, so its pow count differs from the count for reconstructing Addresses for all rows.
 
-## 検証範囲
+## Validation scope
 
-- すべての最終群を、生の剰余タプルから作る群と独立照合。
-- 各更新が既存群を結合しないことを実行時に検査。
-- 原本と拡張コードの全候補分割・エントロピーを比較：既存3サイズ各1 seed、および小型メルセンヌ集合。
-- 既存3ケースの軸と衝突軌跡は公開EXPECTEDと一致。
-- 小さい整数について39,858件の剰余一致検査。
-- 候補上限で未解消の場合、識別済みと誤報しないことを検査。
-- 5回の反復で軸と衝突軌跡が一致。
+- Independently compared all final groups with groups formed from raw residue tuples.
+- Checked at runtime that every update refines existing groups without merging them.
+- Compared all candidate partitions and entropies between the original and extended code for one seed at each of the three existing bit sizes, plus a small Mersenne set.
+- Matched the published EXPECTED axes and collision trajectories for the three existing cases.
+- Verified 39,858 residue identities on small integers.
+- Checked that unresolved collisions at the candidate cap are not reported as successful identification.
+- Matched axes and collision trajectories across five repeated runs.
 
-今回のChatGPT実行記録であり、独立した第三者による外部再現は今後の公開後の段階です。
-深さの観測、実装の整合確認、式の同値性、著者の上位構想は区別します。
-新しい最大素数の発見、素数判定、未知因子の算出、任意集合で深さ2という主張はありません。
-既存成果の完成状態を変更するものではありません。
+These are execution records from this ChatGPT session. Independent third-party reproduction of this experiment is a subsequent step.
+Observed depth, implementation compatibility, mathematical equivalence of expressions, and the author's broader structural interpretation are distinct claims.
+No new largest prime discovery, primality test, computation of unknown factors, or depth-two guarantee for arbitrary sets is claimed.
+The completed status of the existing work is preserved.
 
-## Androidでの再現
+## Reproduction on Android
 
-`AA_HUGE_INTEGER.py` 1ファイルだけで標準実験が動きます。追加ライブラリとネット接続は不要です。
-Android上のPython 3.9以上の実行環境でファイルを開き、実行してください。
-出力先は実行環境の作業フォルダの `results.json` です。書き込み可能なフォルダを使用します。
+The standard experiments run from the single file `AA_HUGE_INTEGER.py`, with no additional libraries or network connection required.
+Open and run the file in a Python 3.9 or later environment on Android.
+The output is `results.json` in the execution environment's working directory; use a writable directory.
 
-コマンドが使える場合：
+If command execution is available:
 
 ```sh
 python AA_HUGE_INTEGER.py
 ```
 
-短い試行は `--repeats 1`、有界の展開比較も行う場合は `--benchmark` を付けます。
-本報告の条件：
+Use `--repeats 1` for a short run. Add `--benchmark` to include the bounded expanded-integer comparison.
+The reported run used:
 
 ```sh
 python AA_HUGE_INTEGER.py --repeats 5 --benchmark
 python validate.py
 ```
 
-通常実行は超巨大整数本体を展開しません。validate.pyは互換性検査のため、
-最大131,072ビットの既存ケースと小型メルセンヌ数を明示的に生成します。
-スマホ実機の速度は未測定です。今回の測定環境はLinux x86_64 / Python 3.12.14。
+The default run does not expand the huge integer bodies. For compatibility checks, validate.py explicitly generates the existing cases up to 131,072 bits and small Mersenne integers.
+Runtime on a physical smartphone has not been measured. The recorded environment is Linux x86_64 / Python 3.12.14.
 
-## 同梱物と公開の次段階
+## Repository files and next steps
 
-- `AA_HUGE_INTEGER.py`：指数一覧を含む単体実行ファイル。
-- `results.json`：全52/104行のAddress、各段階、計算回数、時間、環境。
-- `validate.py` / `validation.json`：互換性検査とその記録。
-- `upstream_reproducer.py`：照合した既存原本。
-- `SHA256SUMS.txt`：同梱ファイルのハッシュ。
+- `README.md`: English edition.
+- `README.ja.md`: Japanese edition.
+- `AA_HUGE_INTEGER.py`: standalone script including the exponent list.
+- `results.json`: full Addresses for the 52/104-integer cases, steps, computation counts, timing, and environment.
+- `validate.py` / `validation.json`: compatibility checks and their execution record.
+- `upstream_reproducer.py`: the verified existing original.
+- `SHA256SUMS.txt`: file checksums.
 
-専用リポジトリ： [IKERUSIKI-Adaptive-Address-Huge-Integers](https://github.com/Hironori-Sushiki-S11/IKERUSIKI-Adaptive-Address-Huge-Integers)
-コードと実験結果は公開済みです。次の段階は、スマホ・他環境での再現と、第三者による外部検証の記録です。
-既存リポジトリ・既存DOIへは上記リンクで遡れます。今回の実験専用の新DOIは未取得です。
+Dedicated repository: [IKERUSIKI-Adaptive-Address-Huge-Integers](https://github.com/Hironori-Sushiki-S11/IKERUSIKI-Adaptive-Address-Huge-Integers).
+The code and experiment results are published. Next steps are reproduction on smartphones and other environments, and documentation of independent external validation.
+The links above connect to the existing repository and its DOI. A new DOI dedicated to this experiment has not yet been obtained.
