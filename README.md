@@ -1,7 +1,8 @@
 # IKERUSIKI Adaptive Address — 超巨大数の有限識別実験
 
 実施日：2026-09-09。既存成果の公開・外部検証フェーズからの新たな適用実験。
-専用リポジトリへの公開用パッケージ。新リポジトリへのアップロードはまだ実施していません。
+本リポジトリでは、超巨大数の有限識別実験のコード・実行結果・検証記録・再現手順を公開しています。
+コードと実験結果は公開済みです。次の段階は、スマホ・他環境での再現と、第三者による外部検証の記録です。。
 
 ## 今回の結果
 
@@ -156,6 +157,6 @@ python validate.py
 - `upstream_reproducer.py`：照合した既存原本。
 - `SHA256SUMS.txt`：同梱ファイルのハッシュ。
 
-専用リポジトリ名案：`IKERUSIKI-Adaptive-Address-Huge-Integers`。
-本パッケージを公開し、スマホ・他環境での再現結果を追加するのが次の段階です。
+専用リポジトリ： [IKERUSIKI-Adaptive-Address-Huge-Integers](https://github.com/Hironori-Sushiki-S11/IKERUSIKI-Adaptive-Address-Huge-Integers)
+コードと実験結果は公開済みです。次の段階は、スマホ・他環境での再現と、第三者による外部検証の記録です。
 既存リポジトリ・既存DOIへは上記リンクで遡れます。今回の実験専用の新DOIは未取得です。
