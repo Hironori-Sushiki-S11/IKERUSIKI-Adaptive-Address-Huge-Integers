@@ -1,0 +1,61 @@
+{
+  "upstream_blob_sha": "f00a6160787750aae76e18791f8f31600ff32834",
+  "checks": [
+    {
+      "bits": 32768,
+      "seed": 20260812,
+      "axes": [
+        477,
+        5
+      ],
+      "trajectory": [
+        4950,
+        3,
+        0
+      ],
+      "candidate_partition_checks": 1021
+    },
+    {
+      "bits": 65536,
+      "seed": 20260812,
+      "axes": [
+        493,
+        5
+      ],
+      "trajectory": [
+        4950,
+        5,
+        0
+      ],
+      "candidate_partition_checks": 1021
+    },
+    {
+      "bits": 131072,
+      "seed": 20260812,
+      "axes": [
+        455,
+        3
+      ],
+      "trajectory": [
+        4950,
+        5,
+        0
+      ],
+      "candidate_partition_checks": 1021
+    },
+    {
+      "small_mersenne_max_p": 11213,
+      "axes": [
+        227
+      ],
+      "trajectory": [
+        253,
+        0
+      ],
+      "candidate_partition_checks": 511
+    }
+  ],
+  "small_residue_checks": 39858,
+  "bounded_blind_spot_reported": true,
+  "status": "PASS"
+}
