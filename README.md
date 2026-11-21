@@ -5,6 +5,14 @@ English | [日本語](README.ja.md)
 Experiment date: 2026-09-09. This is a new application extending the existing work in its publication and external validation phase.
 This repository publishes the code, execution results, validation records, and reproduction instructions for finite identification of huge integers.
 
+## Position within Adaptive Address
+
+Adaptive Address is the principal research object; the Mersenne and ultra-huge-integer corpora here are application cases, not external benchmarks that confer validity on AA. The operative chain is **Current Held-Information State → Collision → Structural Saved Information → Blind Spot → Pick Up → Select → Address Update → Complete Identification → EXPAND when required**. The reported success is complete distinction *within the stated finite corpora*, with the observed axes and costs.
+
+This documentation keeps independent claims separate: collision-free distinction, the computational effect of modular exponentiation, adaptive selection cost, formal convergence conditions, primality/compositeness, and cryptographic consequences. Neither RSA factorization nor an unrelated primality test is an upstream certificate for the observed AA identification; nor does corpus distinction alone establish factoring or primality. The evidence tables below retain those boundaries.
+
+The upstream repository's historical RSA-oriented name records an earlier application, not the current AA evaluation hierarchy.
+
 ## Results
 
 The experiment completely distinguished **52 known Mersenne primes** using axes **467 → 11**, without expanding the integer bodies.
